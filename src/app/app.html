@@ -1,6 +1,13 @@
 <header class="top">
-  <span class="logo">ТърсяБГ</span>
+  <a routerLink="/" class="logo">ТърсяБГ</a>
   <span class="tag">Angular demo · test data</span>
+  <span class="spacer"></span>
+  @if (auth.session(); as s) {
+    <span class="who" data-testid="signed-in-as">{{ s.email }}</span>
+    <button type="button" class="link" (click)="signOut()">Изход</button>
+  } @else {
+    <a routerLink="/login" class="link">Вход</a>
+  }
 </header>
 <main>
   <router-outlet />

@@ -1,0 +1,28 @@
+<section class="login">
+  <h1>Вход</h1>
+  <p class="muted">Тестов профил от тестовата база (не от tursya.bg).</p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label for="email">Имейл</label>
+    <input id="email" type="email" formControlName="email" autocomplete="username" />
+    @if (form.controls.email.touched && form.controls.email.invalid) {
+      <p class="field-error">
+        @if (form.controls.email.hasError('required')) { Въведи имейл. } @else { Имейлът не е валиден. }
+      </p>
+    }
+
+    <label for="password">Парола</label>
+    <input id="password" type="password" formControlName="password" autocomplete="current-password" />
+    @if (form.controls.password.touched && form.controls.password.invalid) {
+      <p class="field-error">Паролата е поне 6 символа.</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <button type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Влизане…' : 'Влез' }}
+    </button>
+  </form>
+</section>
