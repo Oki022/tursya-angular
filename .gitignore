@@ -45,3 +45,7 @@ Thumbs.db
 
 # Supabase test project values, never committed
 /src/environments/environment.development.ts
+
+# Playwright
+/test-results
+/playwright-report
