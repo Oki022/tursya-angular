@@ -1,0 +1,47 @@
+<section class="list">
+  <div class="toolbar">
+    <h1>Активни задачи</h1>
+    <label>
+      Категория
+      <select [value]="category()" (change)="onCategoryChange($event)">
+        <option value="">Всички</option>
+        @for (c of categories; track c[0]) {
+          <option [value]="c[0]">{{ c[1] }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @switch (state().status) {
+    @case ('loading') {
+      <p class="muted">Зареждане…</p>
+    }
+    @case ('error') {
+      <p class="error">Задачите не можаха да се заредят. Провери връзката и настройките.</p>
+    }
+    @case ('ready') {
+      @let s = state();
+      @if (s.status === 'ready') {
+        @for (task of s.tasks; track task.id) {
+          <article class="card" data-testid="task-card">
+            <h2>{{ task.title }}</h2>
+            <p class="meta">
+              {{ task.category | categoryName }}
+              @if (task.city) { · {{ task.city }} }
+              · {{ task.created_at | date: 'd MMM' }}
+            </p>
+            <p class="price">
+              @if (task.budget > 0) {
+                {{ task.budget | currency: 'EUR' : 'symbol' : '1.0-0' }}
+              } @else {
+                По договаряне
+              }
+            </p>
+          </article>
+        } @empty {
+          <p class="muted">Няма активни задачи в тази категория.</p>
+        }
+      }
+    }
+  }
+</section>
