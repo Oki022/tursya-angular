@@ -9,6 +9,15 @@ export interface Task {
   created_at: string;
 }
 
+/** A task with the fields only the detail page needs. */
+export interface TaskDetail extends Task {
+  description: string;
+  neighborhood: string | null;
+}
+
+/** Supabase task ids are UUIDs; anything else cannot be a task. */
+export const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /** Category ids stored in the database and their Bulgarian names (same list as tursya.bg). */
 export const CATEGORIES: Record<string, string> = {
   remonti: 'Ремонти',

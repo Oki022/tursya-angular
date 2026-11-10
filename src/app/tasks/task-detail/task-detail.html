@@ -1,0 +1,37 @@
+<section class="detail">
+  <a routerLink="/" class="back">← Всички задачи</a>
+
+  @let s = state();
+  @switch (s.status) {
+    @case ('loading') {
+      <p class="muted">Зареждане…</p>
+    }
+    @case ('not-found') {
+      <h1>Задачата не е намерена</h1>
+      <p class="muted">Може да е изтекла, затворена или изтрита.</p>
+    }
+    @case ('error') {
+      <p class="error">Задачата не можа да се зареди. Опитай отново.</p>
+    }
+    @case ('ready') {
+      @if (s.status === 'ready') {
+        <article data-testid="task-detail">
+          <h1>{{ s.task.title }}</h1>
+          <p class="meta">
+            {{ s.task.category | categoryName }}
+            @if (s.task.city) { · {{ s.task.city }}@if (s.task.neighborhood) {, {{ s.task.neighborhood }}} }
+            · публикувана {{ s.task.created_at | date: 'd MMMM y' }}
+          </p>
+          <p class="price">
+            @if (s.task.budget > 0) {
+              {{ s.task.budget | currency: 'EUR' : 'symbol' : '1.0-0' }}
+            } @else {
+              По договаряне
+            }
+          </p>
+          <p class="description">{{ s.task.description }}</p>
+        </article>
+      }
+    }
+  }
+</section>

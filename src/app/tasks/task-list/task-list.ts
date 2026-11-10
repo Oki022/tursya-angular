@@ -1,6 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { CategoryNamePipe } from '../category-name.pipe';
 import { CATEGORIES, Task } from '../task.model';
@@ -14,7 +15,7 @@ type ListState =
 /** Page "/" : the newest active tasks with a category filter. */
 @Component({
   selector: 'app-task-list',
-  imports: [CategoryNamePipe, CurrencyPipe, DatePipe],
+  imports: [RouterLink, CategoryNamePipe, CurrencyPipe, DatePipe],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })

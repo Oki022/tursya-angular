@@ -23,7 +23,7 @@
       @let s = state();
       @if (s.status === 'ready') {
         @for (task of s.tasks; track task.id) {
-          <article class="card" data-testid="task-card">
+          <a class="card" data-testid="task-card" [routerLink]="['/task', task.id]">
             <h2>{{ task.title }}</h2>
             <p class="meta">
               {{ task.category | categoryName }}
@@ -37,7 +37,7 @@
                 По договаряне
               }
             </p>
-          </article>
+          </a>
         } @empty {
           <p class="muted">Няма активни задачи в тази категория.</p>
         }

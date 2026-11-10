@@ -40,4 +40,30 @@ describe('TasksService', () => {
     expect(req.request.params.get('category')).toBe('eq.avto');
     req.flush([]);
   });
+
+  it('reads one task by id and returns it', () => {
+    const id = '11111111-2222-3333-4444-555555555555';
+    let result: unknown = 'not called';
+    service.getById(id).subscribe((task) => (result = task));
+
+    const req = http.expectOne((r) => r.url.endsWith('/rest/v1/tasks'));
+    expect(req.request.params.get('id')).toBe(`eq.${id}`);
+    expect(req.request.params.get('select')).toContain('description');
+    req.flush([{ id, title: 'Смяна на гуми', description: 'Четири гуми.', category: 'avto', city: 'Шумен', neighborhood: null, budget: 40, created_at: '2026-11-10T10:00:00Z' }]);
+    expect(result).toMatchObject({ id, title: 'Смяна на гуми' });
+  });
+
+  it('returns null when the server finds nothing (hidden by RLS or deleted)', () => {
+    let result: unknown = 'not called';
+    service.getById('11111111-2222-3333-4444-555555555555').subscribe((task) => (result = task));
+    http.expectOne((r) => r.url.endsWith('/rest/v1/tasks')).flush([]);
+    expect(result).toBeNull();
+  });
+
+  it('does not call the server for an id that is not a UUID', () => {
+    let result: unknown = 'not called';
+    service.getById('abc').subscribe((task) => (result = task));
+    http.expectNone((r) => r.url.endsWith('/rest/v1/tasks'));
+    expect(result).toBeNull();
+  });
 });

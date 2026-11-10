@@ -3,7 +3,8 @@
 .toolbar h1 { margin: 0; font-size: 1.4rem; }
 .toolbar label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; color: #555; }
 .toolbar select { padding: 6px 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.95rem; }
-.card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+.card { display: block; color: inherit; text-decoration: none; border: 1px solid #e5e5e5; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+.card:hover { border-color: #e8590c; }
 .card h2 { margin: 0 0 4px; font-size: 1.05rem; }
 .meta { margin: 0; color: #666; font-size: 0.85rem; }
 .price { margin: 6px 0 0; font-weight: 600; color: #e8590c; }
