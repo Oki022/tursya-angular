@@ -3,6 +3,7 @@
   <span class="tag">Angular demo · test data</span>
   <span class="spacer"></span>
   @if (auth.session(); as s) {
+    <a routerLink="/admin" class="link">Статистика</a>
     <span class="who" data-testid="signed-in-as">{{ s.email }}</span>
     <button type="button" class="link" (click)="signOut()">Изход</button>
   } @else {

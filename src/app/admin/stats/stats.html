@@ -1,0 +1,44 @@
+<section class="stats">
+  <h1>Статистика</h1>
+
+  @let s = state();
+  @switch (s.status) {
+    @case ('loading') {
+      <p class="muted">Зареждане…</p>
+    }
+    @case ('forbidden') {
+      <p class="error" data-testid="forbidden">Нямаш достъп. Тази страница е само за администратори.</p>
+    }
+    @case ('error') {
+      <p class="error">Данните не можаха да се заредят. Опитай отново.</p>
+    }
+    @case ('ready') {
+      @if (s.status === 'ready') {
+        <div class="grid" data-testid="stats-grid">
+          <div class="tile"><span>Потребители</span><strong>{{ s.data.stats.total_users | number }}</strong><small>+{{ s.data.stats.new_users_7d }} за 7 дни</small></div>
+          <div class="tile"><span>Активни задачи</span><strong>{{ s.data.stats.active_tasks | number }}</strong><small>от {{ s.data.stats.total_tasks }} общо</small></div>
+          <div class="tile"><span>Нови задачи</span><strong>{{ s.data.stats.tasks_7d | number }}</strong><small>за 7 дни</small></div>
+          <div class="tile"><span>Отключвания</span><strong>{{ s.data.stats.unlocks_total | number }}</strong><small>общо</small></div>
+          <div class="tile"><span>Приходи</span><strong>{{ s.data.stats.revenue_total | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong><small>{{ s.data.stats.revenue_30d | currency: 'EUR' : 'symbol' : '1.0-0' }} за 30 дни</small></div>
+          <div class="tile"><span>За преглед</span><strong>{{ s.data.stats.moderation_pending + s.data.stats.pending_reports }}</strong><small>модерация и сигнали</small></div>
+        </div>
+
+        <h2>Приходи по месеци</h2>
+        <table>
+          <thead><tr><th>Месец</th><th>Продажби</th><th>Нето</th></tr></thead>
+          <tbody>
+            @for (m of s.data.months; track m.month) {
+              <tr>
+                <td>{{ m.month | date: 'LLLL y' }}</td>
+                <td>{{ m.sales_count }}</td>
+                <td>{{ m.net_eur | currency: 'EUR' : 'symbol' : '1.2-2' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="3" class="muted">Няма продажби.</td></tr>
+            }
+          </tbody>
+        </table>
+      }
+    }
+  }
+</section>
